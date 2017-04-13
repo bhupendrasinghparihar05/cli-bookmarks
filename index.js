@@ -5,7 +5,7 @@ const open = require('open');
 let linksMap;
 
 function printHelp(){
-	console.log("cdk-links (c) Bhupendra Parihar");
+	console.log("cli-bookmarks (c) Bhupendra Parihar");
 	console.log("");
 	console.log("usage:");
 	console.log("--help 	print this help");
@@ -34,6 +34,17 @@ if(args.add){
 		console.log(args.add + " : " +linksMap[args.add]);
 		let json = JSON.stringify(linksMap);
 		fs.writeFileSync('config.json', json, 'utf8');
+	}
+}
+
+if(args.delete){
+	if(!linksMap){
+		let data = fs.readFileSync('config.json','utf8');
+		linksMap = JSON.parse(data) || {};
+	}
+
+	if(linksMap[args.delete]){
+		delete linksMap[args.delete];
 	}
 }
 
@@ -69,8 +80,8 @@ if(args.print){
 	});
 }
 
-if(args.help || (!args.link && !args.print && !args.add)){
-	printHelp();
+if(args.help || (!args.link && !args.print && !args.add  && !args.delete)){
+	printHelp(); 
 	process.exit(1);
 }
 
