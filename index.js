@@ -7,10 +7,13 @@ let linksMap;
 function printHelp(){
 	console.log("cli-bookmarks (c) Bhupendra Parihar");
 	console.log("");
+	console.log("--help : print this help");
+	console.log("--open : open the associated {{URL}} with the app in browser");
+	console.log("--print : print the associated {{URL}} in the console");
+	console.log("--add : add url to bookmark list");
+	console.log("--delete : delete url from bookmark list");
 	console.log("usage:");
-	console.log("--help 	print this help");
-	console.log("--link 	open the associated {{URL}} with the app in browser");
-	console.log("--print 	print the associated {{URL}} in the console");
+	console.log("eg. $ bookmark --open jforjs");
 	var data = fs.readFileSync('config.json','utf8');
 
 	linksMap = JSON.parse(data);
@@ -42,19 +45,21 @@ if(args.delete){
 		let data = fs.readFileSync('config.json','utf8');
 		linksMap = JSON.parse(data) || {};
 	}
-
-	if(linksMap[args.delete]){
+	
+	if(linksMap[args.delete] && args.delete !== 'mdn' && args.delete !== 'jforjs'){
 		delete linksMap[args.delete];
+		let json = JSON.stringify(linksMap);
+		fs.writeFileSync('config.json', json, 'utf8');
 	}
 }
 
-if(args.link){
+if(args.open){
 	fs.readFile('config.json','utf8', function readFileCallBack(err, data){
 		if(err){
 			console.log(err);
 		} else {
 			obj = JSON.parse(data);
-			var urlToOpen = obj[args.link];
+			var urlToOpen = obj[args.open];
 			if(urlToOpen){
 				open(urlToOpen);
 			}else{
@@ -80,9 +85,7 @@ if(args.print){
 	});
 }
 
-if(args.help || (!args.link && !args.print && !args.add  && !args.delete)){
+if(args.help || (!args.open && !args.print && !args.add  && !args.delete)){
 	printHelp(); 
 	process.exit(1);
 }
-
-
