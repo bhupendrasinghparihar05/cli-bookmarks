@@ -24,6 +24,34 @@ function printHelp(){
 		console.log("No Links in config.json");
 	}
 }
+
+function createFile(filename) {
+	var data;
+
+	try{
+		data = fs.readFileSync('config.json','utf8');
+	}catch(e){
+		try{
+      		fs.writeFileSync('config.json', '{"mdn":"https://developer.mozilla.org/en-US/","w3schools":"https://www.w3schools.com","jforjs":"http://jforjs.com"}','utf8');
+      	}catch(e){
+      		console.log(e);
+      	}
+	}
+  
+   /*if (err) {
+    	try{
+      		fs.writeFileSync(filename, '','utf8');
+      	}catch(e){
+      		console.log(e);
+      	}
+    } else {
+      console.log("The file exists!");
+    }*/
+}
+
+createFile('config.json');
+
+
 if(args.add){
 	if(!linksMap){
 		let data = fs.readFileSync('config.json','utf8');
