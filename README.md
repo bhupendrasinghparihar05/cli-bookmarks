@@ -1,5 +1,5 @@
 # cli-bookmarks
-cli-bookmarks is node module for opening confifured urls in browser from command line.g
+cli-bookmarks is node module for opening configured urls in browser from command line.g
 ## Step1- install cli-bookmarks
 ``
 $ npm install cli-bookmarks
